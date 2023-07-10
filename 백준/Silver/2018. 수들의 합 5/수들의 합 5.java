@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+//투포인터 
 public class Main {
 
 	public static void main(String[] args) throws IOException {
@@ -9,22 +10,22 @@ public class Main {
 		StringBuilder sb = new StringBuilder();
 		
 		int N = Integer.parseInt(br.readLine());
-		int count = 0;
-			
-		for(int i=1; i<=N; i++) {
-			int sum = 0;
-			for(int j=i; j<=N; j++) {
-				sum += j;
-				if(sum == N) {
-					count++;
-					break;
-				} else if(sum > N) {
-					break;
-				}
+		int count = 0;		
+		int start = 1;
+		int end = 1;
+		int sum = 1;
+		
+		while(end != N) {
+			if(sum < N) {
+				sum += ++end;
+			} else if(sum > N) {
+				sum -= start++;
+			} else {
+				count++;
+				sum -= start++;
 			}
 		}
-		sb.append(count);
-		System.out.println(sb);
+		System.out.println(count+1);
 	}
 
 }
