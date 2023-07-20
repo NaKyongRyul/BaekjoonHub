@@ -1,30 +1,36 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+	static int N, ans;
+	static int remain;
+	
+	static void cal() {
+		if(N%5 == 0) {
+			ans = N/5;
+		}
+		else {
+			for(int i=N/5; i>=0; i--) {
+				ans = i;
+				remain = N-5*i;
+				if(remain%3 == 0) {
+					ans += remain/3;
+					return;
+				} 
+			}
+			ans = -1;
+		}
+	}
 
-        int num = sc.nextInt();
-        int threePack = 0;
-        int fivePack = 0;
-        int remain = 0;
-
-        if(num % 5 == 0) {
-            fivePack = num / 5;
-        } else {
-            for(int i=num/5; i>=0; i--) {
-                remain = num - 5 * i;
-                if(remain % 3 == 0) {
-                    fivePack = i;
-                    threePack = remain / 3;
-                    break;
-                }
-            }
-        }
-        if(fivePack + threePack == 0) {
-            System.out.println(-1);
-        } else {
-            System.out.println(fivePack + threePack);
-        }
-    }
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		
+		N = Integer.parseInt(br.readLine());
+		
+		cal();
+		sb.append(ans);
+		System.out.println(sb);
+	}
 }
