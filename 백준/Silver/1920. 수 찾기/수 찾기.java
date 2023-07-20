@@ -1,47 +1,41 @@
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.StringTokenizer;
 
 public class Main {
-    static int N, M;
-    static int[] A, B;
+	static int N, M;
+	static int[] inputArr;
 
-    static void input() {
-        Scanner sc = new Scanner(System.in);
-        N = sc.nextInt();
-        A = new int[N+1];
-        for(int i=1; i<=N; i++) {
-            A[i] = sc.nextInt();
-        }
-        M = sc.nextInt();
-        B = new int[M+1];
-        for(int i=1; i<=M; i++) {
-            B[i] = sc.nextInt();
-        }
-    }
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		StringBuilder sb = new StringBuilder();
+		
+		N = Integer.parseInt(br.readLine());
+		inputArr = new int[N];
+		
+		st = new StringTokenizer(br.readLine());
+		for(int i=0; i<N; i++) {
+			inputArr[i] = Integer.parseInt(st.nextToken());
+		}
+		Arrays.sort(inputArr);
+//		System.out.println(Arrays.toString(inputArr));
+		
+		M = Integer.parseInt(br.readLine());
+		st = new StringTokenizer(br.readLine());
+		for(int i=0; i<M; i++) {
+			int findNum = Arrays.binarySearch(inputArr, Integer.parseInt(st.nextToken()));
+			if(findNum < 0) {
+				sb.append(0 + "\n");
+			}
+			else {
+				sb.append(1 + "\n");
+			}
+		}
+		System.out.println(sb);
+	}
 
-    static int binary_search(int[] A, int L, int R, int X) {
-        while(L <= R) {
-            int mid = (L + R) / 2;
-            if(A[mid] < X) {
-                L = mid + 1;
-            } else if(A[mid] > X){
-                R = mid - 1;
-            } else {
-                return 1;
-            }
-        }
-        return 0;
-    }
-
-    static void pro() {
-        Arrays.sort(A, 1, N+1);
-
-        for(int i=1; i<=M; i++) {
-            System.out.println(binary_search(A, 1, N, B[i]));
-        }
-    }
-
-    public static void main(String[] args) {
-        input();
-        pro();
-    }
 }
