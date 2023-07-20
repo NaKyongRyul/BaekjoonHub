@@ -8,12 +8,15 @@ public class Main {
 	static int N;
 	static ArrayList<Integer>[] arr;
 	static int[] parent;
+	static boolean[] isVisited;
 	
-    public static void dfs(int x, int par) {
+    public static void dfs(int x) {
+    	isVisited[x] = true;
         for(int y : arr[x]) {
-            if (y == par) continue;
-            parent[y] = x;
-            dfs(y, x);
+        	if(!isVisited[y]) {
+                parent[y] = x;
+                dfs(y);
+        	}
         }
     }
 	
@@ -25,6 +28,7 @@ public class Main {
 		N = Integer.parseInt(br.readLine());
 		arr = new ArrayList[N+1];
 		parent = new int[N+1];
+		isVisited = new boolean[N+1];
 		
 		for(int i=1; i<=N; i++) {
 			arr[i] = new ArrayList<>();
@@ -38,7 +42,7 @@ public class Main {
 			arr[y].add(x);
 		}
 		
-        dfs(1, -1);
+        dfs(1);
 
         for (int i = 2; i <= N; i++) {
             sb.append(parent[i]).append('\n');
