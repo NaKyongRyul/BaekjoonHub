@@ -1,62 +1,38 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
     static int N, M;
-    static String[] hear, see, ansArr;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        StringBuilder sb = new StringBuilder();
 
-    static void input() {
-        Scanner sc = new Scanner(System.in);
-        N = sc.nextInt();
-        M = sc.nextInt();
-        sc.nextLine(); // nextLine 사용 시, 이전에 next()나 nextInt() 함수 등을 사용한다면 한줄 추가
-        hear = new String[N+1];
-        see = new String[M+1];
-        for(int i=1; i<=N; i++) {
-            hear[i] = sc.nextLine();
-        }
-        for(int i=1; i<=M; i++) {
-            see[i] = sc.nextLine();
-        }
-    }
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
 
-    static boolean binary_search(String[] A, int L, int R, String X) {
-        while(L <= R) {
-            int mid = (L + R) / 2;
-            if(X.compareTo(A[mid]) > 0) {
-                L = mid + 1;
-            } else if(X.compareTo(A[mid]) < 0) {
-                R = mid - 1;
-            } else {
-                return true;
+        HashSet<String> noHear = new HashSet<>();//중복 안되서 HashSet
+        List<String> noHearnoSee = new ArrayList<>();
+
+        for(int i=0; i<N; i++) {
+            noHear.add(br.readLine());
+        }
+
+        for(int i=0; i<M; i++) {
+            String name = br.readLine();
+            if(noHear.contains(name)) {
+                noHearnoSee.add(name);
             }
         }
-        return false;
-    }
 
-    static void pro() {
-        int count = 0;
-        Arrays.sort(see, 1, M+1);
-        Arrays.sort(hear, 1, N+1);
-        
-        for(int i=1; i<=N; i++) {
-            if(binary_search(see, 1, M, hear[i])) {
-                count++;
-            }
+        Collections.sort(noHearnoSee);
+
+        sb.append(noHearnoSee.size() + "\n");
+        for(int i=0; i<noHearnoSee.size(); i++) {
+            sb.append(noHearnoSee.get(i) + "\n");
         }
-        System.out.println(count);
-
-        for(int i=1; i<=N; i++) {
-            if(binary_search(see, 1, M, hear[i])) {
-                System.out.println(hear[i]);
-            }
-        }
-    }
-
-    public static void main(String[] args) {
-        input();
-        pro();
+        System.out.println(sb);
     }
 }
-
-
-
