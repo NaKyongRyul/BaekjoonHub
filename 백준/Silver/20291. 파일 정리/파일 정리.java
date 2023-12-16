@@ -1,43 +1,28 @@
-import java.util.Arrays;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
 
 public class Main {
-    static StringBuilder sb = new StringBuilder();
-
     static int N;
-    static String[] a;
+    static String[] extension;
+    static Map<String, Integer> map = new HashMap();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
 
-    static void input() {
-        Scanner sc = new Scanner(System.in);
-        N = sc.nextInt();
-        a = new String[N + 1];
-        for(int i=1; i<=N; i++) {
-            a[i] = sc.next().split("\\.")[1];
+        N = Integer.parseInt(br.readLine());
+        for(int i=0; i<N; i++) {
+            extension = br.readLine().split("\\.");
+            map.put(extension[1], map.getOrDefault(extension[1], 0)+1);
         }
-    }
 
-    static void pro() {
-        Arrays.sort(a, 1, N+1);
+        List<String> keySet = new ArrayList<>(map.keySet());
+        Collections.sort(keySet);
 
-        for(int i=1; i<=N;) {
-            int count = 1;
-            int j = i + 1;
-            for(;j<=N; j++) {
-                if(a[j].compareTo(a[i]) == 0) {
-                    count++;
-                }
-                else {
-                    break;
-                }
-            }
-            sb.append(a[i]).append(" ").append(count).append('\n');
-            i=j;
+        for (String key : keySet) {
+            sb.append(key + " " + map.get(key) + "\n");
         }
-        System.out.println(sb.toString());
-    }
-
-    public static void main(String[] args) {
-        input();
-        pro();
+        System.out.println(sb);
     }
 }
