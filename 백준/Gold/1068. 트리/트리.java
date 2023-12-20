@@ -5,47 +5,53 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int N;
-	static int root;
-	static ArrayList<Integer>[] arr;
-	static int deleteNode;
-	static int cnt;
-	
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
-		StringBuilder sb = new StringBuilder();
-		
-		N = Integer.parseInt(br.readLine());
-		arr = new ArrayList[N];
-		for(int i=0; i<N; i++) {
-			arr[i] = new ArrayList<>();
-		}
-		
-		st = new StringTokenizer(br.readLine());
-		for(int i=0; i<N; i++) {
-			int par = Integer.parseInt(st.nextToken());
-			if(par == -1) {
-				root = i;
-			} else {
-				arr[par].add(i);
-			}
-		}
-		deleteNode = Integer.parseInt(br.readLine());
+    static int N, deleteNode, cnt, root;
+    static ArrayList<Integer>[] child;
+    static int[] leaf;
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        StringBuilder sb = new StringBuilder();
+
+        N = Integer.parseInt(br.readLine());
+        child = new ArrayList[N];
+        leaf = new int[N];
+
         for(int i=0; i<N; i++) {
-			arr[i].remove(Integer.valueOf(deleteNode));
-		}
-		dfs(root);
-		sb.append(cnt);
-		System.out.println(sb);
-	}
-	
-	public static void dfs(int nowNode) {
-		if(nowNode == deleteNode) return;
-		if(arr[nowNode].size() == 0) cnt++;
-		for(int nextNode : arr[nowNode]) {
-			dfs(nextNode);
-		}
-	}
+            child[i] = new ArrayList<>();
+        }
+
+        st = new StringTokenizer(br.readLine());
+        for(int i=0; i<N; i++) {
+            int par = Integer.parseInt(st.nextToken());
+            if(par == -1) {
+                root = i;
+                continue;
+            }
+            child[par].add(i);
+        }
+        deleteNode = Integer.parseInt(br.readLine());
+
+        for(int i=0; i<N; i++) {
+            if(child[i].contains(deleteNode)) {
+                child[i].remove(child[i].indexOf(deleteNode));
+            }
+        }
+        if(root != deleteNode) dfs(root);
+        sb.append(leaf[root]);
+        System.out.println(sb);
+    }
+
+    static void dfs(int x) {
+        if(child[x].isEmpty()) {
+            leaf[x] = 1;
+        }
+
+        for(int y : child[x]) {
+            dfs(y);
+            leaf[x] += leaf[y];
+        }
+    }
 
 }
