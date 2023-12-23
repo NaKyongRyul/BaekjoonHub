@@ -1,39 +1,37 @@
-import java.util.Scanner;
-//완전 탐색(3)
+import java.awt.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
 public class Main {
-    static StringBuilder sb = new StringBuilder();
     static int N, M;
-    static int[] arr;
+    static int[] selected;
 
-    static void input() {
-        Scanner sc = new Scanner(System.in);
-        N = sc.nextInt();
-        M = sc.nextInt();
-        arr = new int[M+1];
+    static StringBuilder sb = new StringBuilder();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        selected = new int[M];
+
+        rec_func(1,0);
+        System.out.println(sb);
     }
 
-    static void rec_func(int k) {
-        if(k == M+1) {
-            for(int i=1; i<=M; i++) {
-                sb.append(arr[i]).append(' ');
+    static void rec_func(int start, int x) {
+        if(x == M) {
+            for(int i=0; i<M; i++) {
+                sb.append(selected[i] + " ");
             }
-            sb.append('\n');
-        }
-        else {
-            int start = arr[k-1];
-            if(start == 0) {
-                start = 1;
-            }
-            for(int cand=start; cand<=N; cand++) {
-                arr[k] = cand;
-                rec_func(k+1);
+            sb.append("\n");
+        } else {
+            for(int i=start; i<=N; i++) {
+                selected[x] = i;
+                rec_func(i,x+1);
             }
         }
-    }
-
-    public static void main(String[] args) {
-        input();
-        rec_func(1);
-        System.out.println(sb.toString());
     }
 }
