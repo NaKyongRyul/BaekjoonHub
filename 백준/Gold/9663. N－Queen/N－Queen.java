@@ -1,56 +1,45 @@
-import java.util.Scanner;
-//완전 탐색
+import javax.swing.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
 public class Main {
-    static StringBuilder sb = new StringBuilder();
-    static int N;
+    static int N, ans;
     static int[] arr;
-    static int count;
+    static boolean[] isVisit;
+    static StringBuilder sb = new StringBuilder();
 
-    static void input() {
-        Scanner sc = new Scanner(System.in);
-        N = sc.nextInt();
-        arr = new int[N+1];
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        N = Integer.parseInt(br.readLine());
+        arr = new int[N];
+        isVisit = new boolean[N];
+
+        rec_func(0);
+        sb.append(ans);
+        System.out.println(sb);
     }
 
-    //
-    static boolean attack(int r1, int c1, int r2, int c2) {
-        if(c1 == c2) {
-            return true;
-        }
-        else if(r1 - c1 == r2 - c2) {
-            return true;
-        }
-        else if(r1 + c1 == r2 + c2) {
-            return true;
-        }
-        return false;
-    }
-
-    static void rec_func(int row) {
-        if(row == N+1) {
-            count++;
-        }
-        else {
-            for(int cand=1; cand<=N; cand++) {
-                boolean possible = true;
-                for(int i=1; i<=row-1; i++) {
-                    if(attack(row, cand, i, arr[i])) {
-                        possible = false;
+    static void rec_func(int depth) {
+        if(depth == N) {
+            ans++;
+        } else {
+            for(int i=0; i<N; i++) {
+                boolean isValid = true;
+                for(int j=0; j<depth; j++) {
+                    if(arr[j] == i || depth + i == j + arr[j] || depth - i == j - arr[j]) {
+                        isValid = false;
                         break;
                     }
                 }
-                if(possible) {
-                    arr[row] = cand;
-                    rec_func(row+1);
-                    arr[row] = 0;
-                }
+                if(!isValid) continue;
+
+                arr[depth] = i;
+                rec_func(depth+1);
             }
         }
-    }
-
-    public static void main(String[] args) {
-        input();
-        rec_func(1);
-        System.out.println(count);
     }
 }
