@@ -5,30 +5,31 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Main {
+    static int N;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
 
-        int N = Integer.parseInt(br.readLine());
+        N = Integer.parseInt(br.readLine());
         Map<Long, Integer> map = new HashMap<>();
 
-        for (int i = 0; i < N; i++) {
-            long num = Long.parseLong(br.readLine());
-            map.put(num, map.getOrDefault(num, 0) + 1);
+        for(int i=0; i<N; i++) {
+            long key = Long.parseLong(br.readLine());
+            map.put(key, map.getOrDefault(key, 0)+1);
         }
 
         long maxKey = 0;
-        int maxCount = 0;
-
-        for (Map.Entry<Long, Integer> entry : map.entrySet()) {
+        int maxValue = 0;
+        for(Map.Entry<Long, Integer> entry : map.entrySet()) {
             long key = entry.getKey();
-            int count = entry.getValue();
+            int value = entry.getValue();
 
-            if (count > maxCount || (count == maxCount && key < maxKey)) {
+            if(value > maxValue || (value == maxValue && key < maxKey)) {
                 maxKey = key;
-                maxCount = count;
+                maxValue = value;
             }
         }
-
-        System.out.println(maxKey);
+        sb.append(maxKey);
+        System.out.println(sb);
     }
 }
