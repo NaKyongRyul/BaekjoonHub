@@ -1,45 +1,34 @@
-import java.util.Arrays;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
-    static StringBuilder sb = new StringBuilder();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    static int N;
-    static long[] a;
+        int N = Integer.parseInt(br.readLine());
+        Map<Long, Integer> map = new HashMap<>();
 
-    static void input() {
-        Scanner sc = new Scanner(System.in);
-        N = sc.nextInt();
-        a = new long[N + 1];
-        for(int i=1; i<=N; i++) {
-            a[i] = sc.nextLong();
+        for (int i = 0; i < N; i++) {
+            long num = Long.parseLong(br.readLine());
+            map.put(num, map.getOrDefault(num, 0) + 1);
         }
-    }
 
-    static void pro() {
-        Arrays.sort(a, 1, N+1);
+        long maxKey = 0;
+        int maxCount = 0;
 
-        // curCnt: 현재 숫자 등장 횟수, modeCnt: 최빈값 등장 횟수, mode: 최빈값
-        int curCnt = 1;
-        int modeCnt = 1;
-        long mode = a[1];
+        for (Map.Entry<Long, Integer> entry : map.entrySet()) {
+            long key = entry.getKey();
+            int count = entry.getValue();
 
-        for(int i=2; i<=N; i++) {
-            if(a[i] == a[i-1]) {
-                curCnt++;
-            } else {
-                curCnt = 1;
-            }
-            if(modeCnt < curCnt) {
-                modeCnt = curCnt;
-                mode = a[i];
+            if (count > maxCount || (count == maxCount && key < maxKey)) {
+                maxKey = key;
+                maxCount = count;
             }
         }
-        System.out.println(mode);
-    }
 
-    public static void main(String[] args) {
-        input();
-        pro();
+        System.out.println(maxKey);
     }
 }
