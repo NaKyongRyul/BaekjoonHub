@@ -1,46 +1,49 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
     static int N, X;
-    static int[] A;
+    static int[] arr;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        StringBuilder sb = new StringBuilder();
 
-    static void input() {
-        Scanner sc = new Scanner(System.in);
-        N = sc.nextInt();
-        A = new int[N+1];
-        for(int i=1; i<=N; i++) {
-            A[i] = sc.nextInt();
+        N = Integer.parseInt(br.readLine());
+        arr = new int[N];
+
+        st = new StringTokenizer(br.readLine());
+        for(int i=0; i<N; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
         }
-        X = sc.nextInt();
+
+        X = Integer.parseInt(br.readLine());
+
+        Arrays.sort(arr);
+
+        int result = 0;
+        for(int i=0; i<N; i++) {
+            int find_num = X - arr[i];
+            result += binary_search(arr, 0, N-1, find_num);
+        }
+        sb.append(result/2);
+        System.out.println(sb);
     }
 
-    static boolean binary_search(int[] A, int L, int R, int X) {
-        while(L<=R) {
-            int mid = (L+R)/2;
-            if(A[mid] == X) {
-                return true;
-            } else if(A[mid] > X) {
+    static int binary_search(int[] arr, int L, int R, int X) {
+        while(L <= R) {
+            int mid = (L + R) / 2;
+            if(arr[mid] > X) {
                 R = mid - 1;
-            } else {
+            } else if(arr[mid] < X) {
                 L = mid + 1;
+            } else {
+                return 1;
             }
         }
-        return false;
+        return 0;
     }
 
-    static void pro() {
-        int count = 0;
-        Arrays.sort(A, 1, N+1);
-        for(int i=1; i<=N-1; i++) {
-            if(binary_search(A, i+1, N, X-A[i])) {
-                count++;
-            }
-        }
-        System.out.println(count);
-    }
-
-    public static void main(String[] args) {
-        input();
-        pro();
-    }
 }
