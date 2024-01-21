@@ -4,52 +4,42 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int k, n;
+    static int K, N;
     static int[] arr;
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         StringBuilder sb = new StringBuilder();
 
-        k = Integer.parseInt(st.nextToken());
-        n = Integer.parseInt(st.nextToken());
-        arr = new int[k];
+        K = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
 
-        long max = 0;
-
-        for(int i=0; i<k; i++) {
+        arr = new int[K];
+        for(int i=0; i<K; i++) {
             arr[i] = Integer.parseInt(br.readLine());
-            if(max < arr[i]) {
-                max = arr[i];
-            }
         }
 
-        max++;
-        long result = findMaxLength(arr,n,max);
-        sb.append(result);
+        long L = 1;
+        long R = Integer.MAX_VALUE;
+        long ans = 0;
+        while(L <= R) {
+            long mid = (L + R) / 2;
+            if(determination(mid)) {
+                ans = mid;
+                L = mid + 1;
+            } else {
+                R = mid - 1;
+            }
+        }
+        sb.append(ans);
         System.out.println(sb);
     }
 
-    public static long findMaxLength(int[] arr, int n, long max) {
-        long min = 0;
-        long mid;
-
-        while (min < max) {
-            mid = (max + min) / 2;
-
-            int count = 0;
-
-            for (int i = 0; i < arr.length; i++) {
-                count += (arr[i] / mid);
-            }
-
-            if (count < n) {
-                max = mid;
-            } else {
-                min = mid + 1;
-            }
+    static boolean determination(long len) {
+        long sum = 0;
+        for(int i=0; i<K; i++) {
+            sum += arr[i] / len;
         }
-        return min - 1;
+        return sum >= N;
     }
 }
