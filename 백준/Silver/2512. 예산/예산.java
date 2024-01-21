@@ -35,6 +35,7 @@ public class Main {
                     ans = mid;
                 } else {
                     ans = arr[N-1];
+                    break;
                 }
                 L = mid + 1;
             } else {
