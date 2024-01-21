@@ -25,16 +25,17 @@ public class Main {
             }
         }
 
+        max++;
         long result = findMaxLength(arr,n,max);
         sb.append(result);
         System.out.println(sb);
     }
 
     public static long findMaxLength(int[] arr, int n, long max) {
-        long min = 1;
+        long min = 0;
         long mid;
 
-        while (min <= max) {
+        while (min < max) {
             mid = (max + min) / 2;
 
             int count = 0;
@@ -44,11 +45,11 @@ public class Main {
             }
 
             if (count < n) {
-                max = mid - 1;
+                max = mid;
             } else {
                 min = mid + 1;
             }
         }
-        return max;//min, (max+min)/2
+        return min - 1;
     }
 }
