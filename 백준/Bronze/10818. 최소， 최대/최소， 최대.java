@@ -10,16 +10,29 @@ public class Main {
         StringBuilder sb = new StringBuilder();
 
         int N = Integer.parseInt(br.readLine());
-        
+
         int[] arr = new int[N];
 
         st = new StringTokenizer(br.readLine());
         for(int i=0; i<N; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
         }
-        
-        Arrays.sort(arr);
-        sb.append(arr[0]).append(" ").append(arr[N-1]);
-        System.out.println(sb.toString());
+
+        //Arrays.sort(arr);
+        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
+
+        for(int num : arr) {
+            if(num < min) {
+                min = num;
+            }
+            if(num > max) {
+                max = num;
+            }
+        }
+
+        sb.append(min).append(" ").append(max);
+        System.out.println(sb);
     }
 }
+
